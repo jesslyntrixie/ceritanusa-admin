@@ -19,6 +19,8 @@ import {
 } from 'react-admin';
 
 
+
+
 // Artikel
 export const ArtikelList = (props) => (
    <List {...props}>
@@ -36,11 +38,12 @@ export const ArtikelList = (props) => (
                 render={record => {
                     console.log('[ArtikelList] Rendering record.image:', record.image);
                     console.log('[ArtikelList] typeof record.image:', typeof record.image);
-                    // Anda bisa kembalikan <ImageField> di sini jika record.image adalah string
-                    if (record.image && typeof record.image === 'string') {
-                        return <ImageField record={record} source="image" title="title" />;
+
+                    const imageUrl = resolveImageUrl(record.image);
+                    if (imageUrl) {
+                        return <img src={imageUrl} alt="thumbnail" style={{ width: 100 }} />;
                     }
-                    return <span>{typeof record.image === 'object' ? 'Image is an object!' : 'No image string'}</span>;
+                    return <span>No image</span>;
                 }}
             />
         </Datagrid>
@@ -116,35 +119,27 @@ export const QuizList = (props) => (
   </List>
 );
 
-
 export const QuizEdit = (props) => (
-    <Edit {...props}>
-        <SimpleForm>
-            <TextInput source="title" />
-            <TextInput source="description" multiline />
-            <ArrayInput source="questions" label="Questions">
-                <SimpleFormIterator>
-                    <TextInput source="text" label="Question Text" fullWidth />
-
-                    {/* BAGIAN UNTUK MENAMPILKAN GAMBAR YANG SUDAH ADA */}
-                    {/* 'image' di sini adalah field yang berisi URL gambar dari backend */}
-                    <ImageField source="image" title="Current Image" label="Current Question Image" sx={{ '& img': { maxWidth: 200, maxHeight: 200, objectFit: 'contain' } }} />
-
-                    {/* BAGIAN UNTUK UPLOAD ATAU MENGGANTI GAMBAR */}
-                    <ImageInput source="image" label="New/Change Question Image" accept="image/*">
-                        <ImageField source="src" title="title" />
-                    </ImageInput>
-
-                    <ArrayInput source="choices" label="Choices">
-                        <SimpleFormIterator>
-                            <TextInput source="text" label="Choice Text" />
-                            <BooleanInput source="is_correct" label="Is Correct?" />
-                        </SimpleFormIterator>
-                    </ArrayInput>
-                </SimpleFormIterator>
-            </ArrayInput>
-        </SimpleForm>
-    </Edit>
+  <Edit {...props}>
+    <SimpleForm>
+      <TextInput source="title" />
+      <TextInput source="description" />
+      <ArrayInput source="questions">
+        <SimpleFormIterator>
+          <TextInput source="text" />
+          <ImageInput source="image" accept="image/*">
+            <ImageField source="src" />
+          </ImageInput>
+          <ArrayInput source="choices">
+            <SimpleFormIterator>
+              <TextInput source="text" />
+              <BooleanInput source="is_correct" />
+            </SimpleFormIterator>
+          </ArrayInput>
+        </SimpleFormIterator>
+      </ArrayInput>
+    </SimpleForm>
+  </Edit>
 );
 
 export const QuizCreate = (props) => (
