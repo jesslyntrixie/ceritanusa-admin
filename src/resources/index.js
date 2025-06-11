@@ -18,8 +18,14 @@ import {
   FunctionField
 } from 'react-admin';
 
+const API_URL = 'https://web-production-06f9.up.railway.app';
 
-
+function resolveImageUrl(url){
+  if (typeof url === 'string' && url.startsWith('/api')) {
+    return API_URL + url;
+  }
+  return url;
+};
 
 // Artikel
 export const ArtikelList = (props) => (
@@ -28,11 +34,6 @@ export const ArtikelList = (props) => (
             <TextField source="title" />
             <TextField source="author" />
             <DateField source="created_at" />
-
-            {/* Komponen ImageField asli Anda, bisa Anda komentari atau hapus jika FunctionField di bawah sudah cukup */}
-            {/* <ImageField source="image" title="title" /> */}
-
-            {/* Menggunakan FunctionField untuk logging dan kemudian merender ImageField */}
             <FunctionField
                 label="Image Debug"
                 render={record => {
