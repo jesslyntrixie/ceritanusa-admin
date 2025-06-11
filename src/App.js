@@ -1,49 +1,29 @@
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
 import dataProvider from './dataProvider';
-import authProvider from './authProvider';
-import MyLoginPage from './MyLoginPage';
 import {
   ArtikelList, ArtikelEdit, ArtikelCreate,
   ChatList, ChatEdit, ChatCreate,
   QuizList, QuizEdit, QuizCreate,
+  FavoriteList, FavoriteEdit,
   SummaryList, SummaryEdit, SummaryCreate
-} from './resources'; // Pastikan path ini benar
-
-// Impor untuk komponen resource Firebase BARU Anda
-import { UserList } from './UserList'; 
-
-import { UserEdit } from './UserEdit';
-import { UserShow } from './UserShow'; 
-
-// Impor untuk ikon
+} from './resources';
 import {
   Article,
   Chat,
   Quiz,
-  Favorite, 
-  Summarize,
-  People 
+  Favorite,
+  Summarize
 } from '@mui/icons-material';
-  
 
 const App = () => (
-   <Admin 
-    dataProvider={dataProvider} 
-    authProvider={authProvider}
-    // loginPage={MyLoginPage} // ]
-  >
-
-    {/* Resource untuk data dari Firebase */}
-    <Resource name="users" list={UserList} icon={People} edit={UserEdit} show={UserShow}/> 
-    {/* <Resource name="favorites" icon={Favorite} /> */}
+  <Admin dataProvider={dataProvider}>
     <Resource
       name="artikels"
       list={ArtikelList}
       edit={ArtikelEdit}
       create={ArtikelCreate}
       icon={Article}
-      show={UserShow}
     />
     <Resource
       name="chats"
@@ -59,7 +39,12 @@ const App = () => (
       create={QuizCreate}
       icon={Quiz}
     />
-
+    <Resource
+      name="favorites"
+      list={FavoriteList}
+      edit={FavoriteEdit}
+      icon={Favorite}
+    />
     <Resource
       name="summaries"
       list={SummaryList}
