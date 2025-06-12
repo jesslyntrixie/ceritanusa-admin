@@ -131,6 +131,17 @@ export const QuizEdit = (props) => (
           <ImageInput source="image" accept="image/*">
             <ImageField source="src" />
           </ImageInput>
+          <FunctionField
+            label="Quiz Image"
+            render={record => {
+              const imageUrl = resolveImageUrl(record.image);
+              return imageUrl ? (
+                <img src={imageUrl} alt="Quiz" style={{ width: 100 }} />
+              ) : (
+                <span>No image</span>
+              );
+            }}
+          />
           <ArrayInput source="choices">
             <SimpleFormIterator>
               <TextInput source="text" />
